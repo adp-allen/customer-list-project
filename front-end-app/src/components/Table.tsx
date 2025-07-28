@@ -21,6 +21,19 @@ interface TableProps {
         .then((data) => setCustomers(data));
     }, []);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentCustomers = customers.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(customers.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <div className='table-container'>
             <h2 className='table-title'>Customer List</h2>
@@ -34,7 +47,7 @@ interface TableProps {
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map((customer, idx) => (
+                    {currentCustomers.map((customer, idx) => (
                         <tr key={idx}>
                             <td>{customer.id}</td>
                             <td>{customer.name}</td>
@@ -44,6 +57,17 @@ interface TableProps {
                     ))}
                 </tbody>
             </table>
+            <div className='pagination'>
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                        key={index}
+                        className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 };
