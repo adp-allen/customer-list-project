@@ -8,19 +8,17 @@ interface Customer {
     password: string;
 }
 
-export const Table = () => {
+interface TableProps {
+    isLoggedIn: boolean; 
+  }
+  
+  export const Table = ({ isLoggedIn }: TableProps) => {
     const [customers, setCustomers] = useState<Customer[]>([]);
-    // Uncomment the following line when AuthContext is implemented
-    // const { isLoggedIn } = useAuth();
-    const isLoggedIn = false;
-
+  
     useEffect(() => {
-        fetch("/data.json")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setCustomers(data.customers)
-            });
+      fetch('/data.json')
+        .then((res) => res.json())
+        .then((data) => setCustomers(data.customers));
     }, []);
 
     return (
