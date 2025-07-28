@@ -12,7 +12,7 @@ function App() {
   const login: any = undefined;
 
   return (
-    <div className="container-fluid"
+    <div className="container-fluid">
       <Routes>
         <Route path="/addUser" element={<AddUser />} />
         <Route path="/updateUser" element={<UpdateUser />} />
