@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Table } from './components/Table';
+import LoginModal from './components/LoginModal';
+import './components/LoginModal.css';
+import { useAuth } from './AuthContext';
+import './App.css';
+import AddUser from './components/AddUser'
+import UpdateUser from './components/UpdateUser'
+import { Route, Routes, Navigate, Link} from 'react-router'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { isLoggedIn, login, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleLoginSuccess = () => {
+    login();
+    setShowLogin(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="container-fluid">
+      <button
+        className="auth-btn"
+        onClick={isLoggedIn ? logout : () => setShowLogin(true)}
+      />
+      <Routes>
+        <Route path="/addUser" element={<AddUser />} />
+        <Route path="/updateUser" element={<UpdateUser />} />
+      </Routes>
+      <button onClick={isLoggedIn ? logout : login}>
+        {isLoggedIn ? 'Logout' : 'Login'}
+      </button>
+
+
+      <Table isLoggedIn={isLoggedIn} />
+
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

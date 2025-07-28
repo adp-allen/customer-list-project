@@ -1,0 +1,62 @@
+.add-user-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.add-user-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.add-user-body {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.add-user-body p {
+    margin: 12px 0 4px;
+    font-weight: 500;
+}
+
+.add-user-body input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-user-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-user-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+
+.add-user-buttons button.add-user-cancel-button {
+    background: gray;
+    color: #fff;
+}
+
+.add-user-buttons button.add-user-save-button {
+    background: green;
+    color: #fff;
+}
+
+.add-user-buttons button.add-user-cancel-button:hover {
+    background: lightgray;
+}
+
+.add-user-buttons button.add-user-save-button:hover {
+    background: lightgreen;
+}
