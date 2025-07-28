@@ -1,24 +1,47 @@
+import { useState } from 'react'
 import './AddUser.css'
 
 function AddUser() {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const navigate = window.location ? (path: string) => window.location.assign(path) : () => {}
+
+    const handleSave = async () => {
+        const user = { name, email, password }
+        try {
+            const res = await fetch('http://localhost:3000/customers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+            })
+            if (res.ok) navigate('/')
+        } catch (err) {
+            alert('Failed to add user')
+        }
+    }
+
+    const handleCancel = () => {
+        navigate('/')
+    }
+
     return (
         <div className='add-user-container'>
             <h1>Add User Page</h1>
             <div className='add-user-body'>
                 <p>Customer Name</p>
-                <input  type={'text'} name={'title'}></input>
+                <input type='text' value={name} onChange={e => setName(e.target.value)} />
 
                 <p>Email</p>
-                <input  type={'text'} name={'title'}></input>
+                <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
 
                 <p>Password</p>
-                <input  type={'text'} name={'title'}></input>
+                <input type='text' value={password} onChange={e => setPassword(e.target.value)} />
             </div>
             <div className='add-user-buttons'>
-                <button className='add-user-cancel-button'>Cancel</button>
-                <button className='add-user-save-button'>Save</button>
+                <button className='add-user-cancel-button' onClick={handleCancel}>Cancel</button>
+                <button className='add-user-save-button' onClick={handleSave}>Save</button>
             </div>
-            
         </div>
     )
 }
