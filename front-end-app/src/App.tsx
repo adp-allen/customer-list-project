@@ -1,25 +1,37 @@
 import { useState } from 'react';
+import './App.css';
 import { Table } from './components/Table';
 import LoginModal from './components/LoginModal';
 import './components/LoginModal.css';
-
+import { useAuth } from './AuthContext';
 
 function App() {
+  const { isLoggedIn, login, logout } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
 
-  // Uncomment the following line when AuthContext is implemented
-  // const { isLoggedIn, logout, login } = useAuth();
-  const isLoggedIn = false;
-  const logout: any = undefined;
-  const login: any = undefined;
+  const handleLoginSuccess = () => {
+    login();
+    setShowLogin(false);
+  };
 
   return (
     <div className="container-fluid">
-      <button onClick={isLoggedIn ? logout : () => setShowLogin(true)}>
+      <button
+        className="auth-btn"
+        onClick={isLoggedIn ? logout : () => setShowLogin(true)}
+      >
         {isLoggedIn ? 'Logout' : 'Login'}
       </button>
-      <Table />
-      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+
+
+      <Table isLoggedIn={isLoggedIn} />
+
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
     </div>
   );
 }
