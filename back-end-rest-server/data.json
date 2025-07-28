@@ -1,13 +1,7 @@
 {
   "customers": [
     {
-      "id": 0,
-      "name": "Mary Jackson",
-      "email": "maryj@abc.com",
-      "password": "maryj"
-    },
-    {
-      "id": 1,      
+      "id": 1,
       "name": "Karen Addams",
       "email": "karena@abc.com",
       "password": "karena"
@@ -17,7 +11,12 @@
       "name": "Scott Ramsey",
       "email": "scottr@abc.com",
       "password": "scottr"
+    },
+    {
+      "name": "Test User",
+      "email": "test@abc.com",
+      "password": "testpass",
+      "id": "1753725671662"
     }
   ]
-
 }

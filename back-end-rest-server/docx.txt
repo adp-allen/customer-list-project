@@ -1,0 +1,69 @@
+
+API Handler Usage Guide
+
+This guide explains how to use each customer API handler in your REST server.
+
+1. Get All Customers
+Endpoint: GET /customers
+Description: Returns a list of all customers.
+Example (JavaScript):
+  fetch('http://localhost:3000/customers')
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+---
+
+
+2. Get Customer by ID
+Endpoint: GET /customers/:id
+Description: Returns a single customer by their ID.
+Example (JavaScript):
+  fetch('http://localhost:3000/customers/1')
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+---
+
+
+3. Add New Customer
+Endpoint: POST /customers
+Description: Adds a new customer. Send customer data as JSON in the request body.
+Example (JavaScript):
+  fetch('http://localhost:3000/customers', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'John Doe', email: 'john@abc.com', password: 'john123' })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+---
+
+
+4. Update Customer by ID
+Endpoint: PUT /customers/:id
+Description: Updates an existing customer by ID. Send updated data as JSON in the request body.
+Example (JavaScript):
+  fetch('http://localhost:3000/customers/1', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Jane Doe' })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+---
+
+
+5. Delete Customer by ID
+Endpoint: DELETE /customers/:id
+Description: Deletes a customer by their ID.
+Example (JavaScript):
+  fetch('http://localhost:3000/customers/1', {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+
+Replace localhost:3000 with your server address if different.
