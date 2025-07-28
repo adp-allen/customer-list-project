@@ -1,0 +1,81 @@
+// imports
+const express = require('express')
+const JsonDatabase = require('./db')
+
+// create app
+const app = express()
+const port = 3000
+
+// import json data storage
+const customerDb = new JsonDatabase('data.json')
+
+// middleware
+app.use(express.json())
+
+// static assets and routing
+// TODO
+
+// create handlers
+// -----------------
+// Get all customers
+app.get('/customers', async (req, res) => {
+    try {
+        const customers = await customerDb.readAll()
+        res.json(customers)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch customers.' })
+    }
+})
+
+// Get customer by id
+app.get('/customers/:id', async (req, res) => {
+    try {
+        // id in data.json is a number, so convert to number for search
+        const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
+        const customer = await customerDb.readById(id)
+        if (!customer) return res.status(404).json({ error: 'Customer not found.' })
+        res.json(customer)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch customer.' })
+    }
+})
+
+// Add new customer
+app.post('/customers', async (req, res) => {
+    try {
+        const newCustomer = await customerDb.add(req.body)
+        res.status(201).json(newCustomer)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to add customer.' })
+    }
+})
+
+// Update customer by id
+app.put('/customers/:id', async (req, res) => {
+    try {
+        const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
+        const updated = await customerDb.updateById(id, req.body)
+        if (!updated) 
+            return res.status(404).json({ error: 'Customer not found.' })
+        res.json(updated)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update customer.' })
+    }
+})
+
+// Delete customer by id
+app.delete('/customers/:id', async (req, res) => {
+    try {
+        const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
+        const result = await customerDb.deleteById(id)
+        res.json(result)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to delete customer.' })
+    }
+})
+
+
+// start server
+app.listen(port, () => {
+    console.log('Server is running on port: ', port)
+})
