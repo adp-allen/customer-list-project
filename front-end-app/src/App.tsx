@@ -14,6 +14,7 @@ function App() {
       <Route path="/dash" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
       <Route path="/addUser" element={<ProtectedRoute><AddUser/></ProtectedRoute>} />
       <Route path="/updateUser" element={<ProtectedRoute><UpdateUser/></ProtectedRoute>} />
+      {/* <Route path="/updateUser/:id" element={<ProtectedRoute><UpdateUser/></ProtectedRoute>} /> */}
     </Routes>
   );
 }

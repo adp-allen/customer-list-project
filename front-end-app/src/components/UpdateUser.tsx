@@ -1,7 +1,10 @@
+import { useParams, useSearchParams } from 'react-router-dom';
 import './UpdateUser.css'
 import { useState } from 'react'
 
-function UpdateUser({ id }: { id: number }) {
+function UpdateUser() {
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get('id');
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -33,7 +36,7 @@ function UpdateUser({ id }: { id: number }) {
     }
 
     const handleCancel = () => {
-        navigate('/')
+        navigate('/dash')
     }
 
     return (
