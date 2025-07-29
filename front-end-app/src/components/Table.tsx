@@ -58,6 +58,13 @@ interface TableProps {
                 </tbody>
             </table>
             <div className='pagination'>
+                <button
+                    className='page-button'
+                    disabled={currentPage === 1}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                >
+                    &lt;
+                </button>
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
                         key={index}
@@ -67,6 +74,13 @@ interface TableProps {
                         {index + 1}
                     </button>
                 ))}
+                <button
+                    className='page-button'
+                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                >
+                    &gt;
+                </button>
             </div>
         </div>
     );
