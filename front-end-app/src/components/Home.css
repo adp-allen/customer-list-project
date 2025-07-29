@@ -1,48 +1,43 @@
-/* Home.css */
+/* src/components/Home.css */
 
-.table-header-container {
-  position: relative;
-  margin-bottom: 1rem;
-  height: 40px; /* match height for vertical alignment */
+.home-container {
+  padding: 20px;
 }
 
-.search-bar-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
-.table-title {
-  text-align: center;
-  line-height: 40px; /* vertically center text */
-  margin: 0;
-  pointer-events: none; /* avoid pointer blocking */
-  font-size: 1.5rem;
-  font-weight: 600;
+.search-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-/* Optional: style inputs and select in search bar nicely */
-.search-bar-wrapper select,
-.search-bar-wrapper input {
-  padding: 4px 8px;
-  font-size: 1rem;
-  margin-right: 0.5rem;
+.search-bar input {
+  padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
-/* Responsive tweak for small screens */
-@media (max-width: 480px) {
-  .table-header-container {
-    height: auto;
-  }
-  .search-bar-wrapper {
-    position: static;
-    margin-bottom: 0.5rem;
-  }
-  .table-title {
-    text-align: left;
-    line-height: normal;
-    pointer-events: auto;
-  }
+.title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.logout-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #c44;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

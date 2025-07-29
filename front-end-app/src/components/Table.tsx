@@ -1,9 +1,7 @@
 // Table.tsx
 import { useEffect, useState } from 'react';
 import './Table.css';
-import './Home.css'; // Import the CSS for layout styling
 import type { FilterKey } from './SearchBar';
-import SearchBar from './SearchBar';
 
 interface Customer {
   id: number;
@@ -16,17 +14,9 @@ interface TableProps {
   isLoggedIn: boolean;
   selectedField: FilterKey;
   searchValue: string;
-  onFieldChange: (field: FilterKey) => void;
-  onSearchChange: (value: string) => void;
 }
 
-export const Table = ({
-  isLoggedIn,
-  selectedField,
-  searchValue,
-  onFieldChange,
-  onSearchChange
-}: TableProps) => {
+export const Table = ({ isLoggedIn, selectedField, searchValue }: TableProps) => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -37,26 +27,35 @@ export const Table = ({
       .then((data) => setCustomers(data));
   }, []);
 
-  // Filter customers based on search
   const filteredCustomers = customers.filter((customer) => {
     if (!searchValue.trim()) return true;
 
     const search = searchValue.toLowerCase();
 
     if (selectedField === 'all') {
-      return (
-        customer.id.toString().toLowerCase().includes(search) ||
-        customer.name.toLowerCase().includes(search) ||
-        customer.email.toLowerCase().includes(search) ||
-        customer.password.toLowerCase().includes(search)
-      );
+      if (isLoggedIn) {
+        return (
+          customer.id.toString().toLowerCase().includes(search) ||
+          customer.name.toLowerCase().includes(search) ||
+          customer.email.toLowerCase().includes(search) ||
+          customer.password.toLowerCase().includes(search)
+        );
+      } else {
+        return (
+          customer.id.toString().toLowerCase().includes(search) ||
+          customer.name.toLowerCase().includes(search)
+        );
+      }
+    }
+
+    if (!isLoggedIn && (selectedField === 'email' || selectedField === 'password')) {
+      return true;
     }
 
     const fieldValue = customer[selectedField].toString().toLowerCase();
     return fieldValue.includes(search);
   });
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -68,18 +67,6 @@ export const Table = ({
 
   return (
     <div className="table-container">
-      <div className="table-header-container">
-        <div className="search-bar-wrapper">
-          <SearchBar
-            selectedField={selectedField}
-            searchValue={searchValue}
-            onFieldChange={onFieldChange}
-            onSearchChange={onSearchChange}
-          />
-        </div>
-        <h2 className="table-title">Customer List</h2>
-      </div>
-
       <table className="customer-table">
         <thead>
           <tr>

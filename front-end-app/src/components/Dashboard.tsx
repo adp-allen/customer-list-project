@@ -1,7 +1,7 @@
 // Dashboard.tsx
 import { useState } from 'react';
+import SearchBar, { type FilterKey } from './SearchBar';
 import { Table } from './Table';
-import { type FilterKey } from './SearchBar';
 import { useAuth } from '../AuthContext';
 
 export default function Dashboard() {
@@ -17,14 +17,24 @@ export default function Dashboard() {
 
   return (
     <div className="container-fluid">
-      <button className="auth-btn" onClick={logOut}>Logout</button>
-      <Table
-        isLoggedIn={true}
-        selectedField={selectedField}
-        searchValue={searchValue}
-        onFieldChange={setSelectedField}
-        onSearchChange={setSearchValue}
-      />
+      <button className="auth-btn" onClick={logOut}>
+        Logout
+      </button>
+
+      <div className="table-header-container">
+        <div className="search-bar-wrapper">
+          <SearchBar
+            selectedField={selectedField}
+            searchValue={searchValue}
+            onFieldChange={setSelectedField}
+            onSearchChange={setSearchValue}
+          />
+        </div>
+
+        <h2 className="table-title">Customer List</h2>
+      </div>
+
+      <Table isLoggedIn={true} selectedField={selectedField} searchValue={searchValue} />
     </div>
   );
 }

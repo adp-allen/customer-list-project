@@ -1,12 +1,16 @@
+// Home.tsx
 import { useState } from 'react';
+import SearchBar, { type FilterKey } from './SearchBar';
 import { Table } from './Table';
 import LoginModal from './LoginModal';
 import { useAuth } from '../AuthContext';
-import type { FilterKey } from './SearchBar';
 
 function Home() {
   const { login } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
+
+  const [selectedField, setSelectedField] = useState<FilterKey>('all');
+  const [searchValue, setSearchValue] = useState('');
 
   const handleLoginSuccess = () => {
     login();
@@ -16,32 +20,36 @@ function Home() {
 
   const loginHandler = () => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      window.location.assign('/dash')
+      window.location.assign('/dash');
     } else {
-      setShowLogin(true)
+      setShowLogin(true);
     }
-  }
+  };
 
   return (
     <div className="container-fluid">
-      <button
-        className="auth-btn"
-        onClick={loginHandler}
-      >
+      <button className="auth-btn" onClick={loginHandler}>
         Login
       </button>
-   <Table isLoggedIn={false} selectedField="name" searchValue="" onFieldChange={function (): void {
-        throw new Error('Function not implemented.');
-      } } onSearchChange={function (value: string): void {
-        throw new Error('Function not implemented.');
-      } } />
 
+      <div className="table-header-container">
+        <div className="search-bar-wrapper">
+          <SearchBar
+            selectedField={selectedField}
+            searchValue={searchValue}
+            onFieldChange={setSelectedField}
+            onSearchChange={setSearchValue}
+            allowedFields={['all', 'id', 'name']} // limit fields here
+          />
+        </div>
+
+        <h2 className="table-title">Customer List</h2>
+      </div>
+
+      <Table isLoggedIn={false} selectedField={selectedField} searchValue={searchValue} />
 
       {showLogin && (
-        <LoginModal
-          onClose={() => setShowLogin(false)}
-          onLoginSuccess={handleLoginSuccess}
-        />
+        <LoginModal onClose={() => setShowLogin(false)} onLoginSuccess={handleLoginSuccess} />
       )}
     </div>
   );
