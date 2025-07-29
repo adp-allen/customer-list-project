@@ -15,10 +15,10 @@ interface TableProps {
   export const Table = ({ isLoggedIn }: TableProps) => {
     const [customers, setCustomers] = useState<Customer[]>([]);
   
-    useEffect(() => {
-      fetch('/data.json')
+    useEffect(() => { 
+      fetch('http://localhost:3000/customers/')
         .then((res) => res.json())
-        .then((data) => setCustomers(data.customers));
+        .then((data) => setCustomers(data));
     }, []);
 
     const [currentPage, setCurrentPage] = useState(1);

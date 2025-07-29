@@ -1,5 +1,6 @@
 // imports
 const express = require('express')
+const cors = require('cors')
 const JsonDatabase = require('./db')
 
 // create app
@@ -11,6 +12,7 @@ const customerDb = new JsonDatabase('data.json')
 
 // middleware
 app.use(express.json())
+app.use(cors())
 
 // static assets and routing
 // TODO
