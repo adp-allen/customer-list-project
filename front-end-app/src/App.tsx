@@ -13,7 +13,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/dash" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
       <Route path="/addUser" element={<ProtectedRoute><AddUser/></ProtectedRoute>} />
-      <Route path="/updateUser" element={<ProtectedRoute><UpdateUser/></ProtectedRoute>} />
+      <Route path="/updateUser" element={<ProtectedRoute><UpdateUser id={0}/></ProtectedRoute>} />
     </Routes>
   );
 }

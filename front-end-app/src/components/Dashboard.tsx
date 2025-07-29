@@ -1,7 +1,12 @@
+
 import { Table } from './Table';
 import { useAuth } from '../AuthContext';
+import ImportData from './ImportData';
+import { useState } from 'react';
+import './Dashboard.css';
 
 export default function Dashboard() {
+    const [showExport, changeShowExport] = useState(false)
     const { logout } = useAuth();
 
     const logOut = () => {
@@ -9,14 +14,19 @@ export default function Dashboard() {
         window.location.assign('/');
     }
 
+    const toggleShowExport = () => {
+        changeShowExport(true)
+    }
+
     return (
         <div className="container-fluid">
-            <button
-                className="auth-btn"
-                onClick={logOut}
-            >
-                Logout
-            </button>
+            <div className="dashboard-header">
+                <button className="auth-btn" onClick={logOut}>
+                    Logout
+                </button>
+                <button className='export-btn' onClick={toggleShowExport}>Export Data</button>
+            </div>
+            <ImportData show={showExport} onCancel={() => changeShowExport(false)}/>
             <Table isLoggedIn={true} />
         </div>
     );
