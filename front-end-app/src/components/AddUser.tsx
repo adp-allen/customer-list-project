@@ -22,7 +22,7 @@ function AddUser() {
     }
 
     const handleCancel = () => {
-        navigate('/')
+        navigate('/dash')
     }
 
     return (

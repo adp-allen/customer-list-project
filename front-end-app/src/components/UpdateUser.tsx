@@ -1,11 +1,32 @@
+import { useSearchParams } from 'react-router-dom';
 import './UpdateUser.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import ConfirmModal from './ConfirmModal';
 
-function UpdateUser({ id }: { id: number }) {
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+function UpdateUser() {
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get('id');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showConfirm, setShowConfirm] = useState(false);
     const navigate = window.location ? (path: string) => window.location.assign(path) : () => {}
+
+    // Fetch user data when component mounts
+    useEffect(() => {
+        if (id) {
+            fetch(`http://localhost:3000/customers/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setName(data.name || '');
+                    setEmail(data.email || '');
+                    setPassword(data.password || '');
+                })
+                .catch(() => {
+                    alert('Failed to fetch user data');
+                });
+        }
+    }, [id]);
 
     const handleUpdate = async () => {
         const user = { name, email, password }
@@ -15,25 +36,30 @@ function UpdateUser({ id }: { id: number }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)
             })
-            if (res.ok) navigate('/')
+            if (res.ok) navigate('/dash')
         } catch (err) {
             alert('Failed to update user')
         }
     }
 
     const handleDelete = async () => {
+        setShowConfirm(true);
+    };
+
+    const confirmDelete = async () => {
+        setShowConfirm(false);
         try {
             const res = await fetch(`http://localhost:3000/customers/${id}`, {
                 method: 'DELETE'
-            })
-            if (res.ok) navigate('/')
+            });
+            if (res.ok) navigate('/dash');
         } catch (err) {
-            alert('Failed to delete user')
+            alert('Failed to delete user');
         }
-    }
+    };
 
     const handleCancel = () => {
-        navigate('/')
+        navigate('/dash')
     }
 
     return (
@@ -54,6 +80,13 @@ function UpdateUser({ id }: { id: number }) {
                 <button className='update-user-save-button' onClick={handleUpdate}>Save</button>
                 <button className='update-user-delete-button' onClick={handleDelete}>Delete</button>
             </div>
+            {showConfirm && (
+                <ConfirmModal
+                    message="Are you sure you want to delete this user?"
+                    onConfirm={confirmDelete}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </div>
     )
 }

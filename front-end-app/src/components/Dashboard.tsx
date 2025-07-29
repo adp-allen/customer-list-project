@@ -4,10 +4,12 @@ import { useAuth } from '../AuthContext';
 import ImportData from './ImportData';
 import { useState } from 'react';
 import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [showExport, changeShowExport] = useState(false)
     const { logout } = useAuth();
+    const navigate = useNavigate();
 
     const logOut = () => {
         logout();
