@@ -1,0 +1,31 @@
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.auth-btn, .export-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-btn {
+    background: #d44641;
+    color: #fff;
+}
+.auth-btn:hover {
+    background: #c9302c;
+}
+
+.export-btn {
+    background: #00af5d;
+    color: #fff;
+}
+.export-btn:hover {
+    background: #339cff;
+}

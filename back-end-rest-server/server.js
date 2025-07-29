@@ -2,6 +2,7 @@
 const express = require('express')
 const cors = require('cors')
 const JsonDatabase = require('./db')
+const { exportToCSV, exportToXLSX } = require('./exportData')
 
 // create app
 const app = express()
@@ -15,7 +16,7 @@ app.use(express.json())
 app.use(cors())
 
 // static assets and routing
-// TODO
+
 
 // create handlers
 // -----------------
@@ -75,6 +76,42 @@ app.delete('/customers/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to delete customer.' })
     }
 })
+
+
+// Download customers.csv
+app.get('/export/csv', async (req, res) => {
+    try {
+        await exportToCSV()
+        const filePath = require('path').join(__dirname, 'customers.csv')
+        res.download(filePath, 'customers.csv', err => {
+            if (err) res.status(500).json({ error: 'Failed to download CSV.' })
+        })
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to export CSV.' })
+    }
+})
+
+// Download customers.xlsx
+app.get('/export/xlsx', async (req, res) => {
+    try {
+        await exportToXLSX()
+        const filePath = require('path').join(__dirname, 'customers.xlsx')
+        res.download(filePath, 'customers.xlsx', err => {
+            if (err) res.status(500).json({ error: 'Failed to download Excel.' })
+        })
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to export Excel.' })
+    }
+})
+
+// Download raw JSON data
+app.get('/export/json', (req, res) => {
+    const filePath = require('path').join(__dirname, 'data.json');
+    res.download(filePath, 'data.json', err => {
+        if (err) res.status(500).json({ error: 'Failed to download JSON.' });
+    });
+});
+
 
 
 // start server
