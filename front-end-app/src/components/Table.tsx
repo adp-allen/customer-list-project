@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Table.css';
 
 interface Customer {
@@ -10,15 +11,17 @@ interface Customer {
 
 interface TableProps {
     isLoggedIn: boolean; 
-  }
-  
-  export const Table = ({ isLoggedIn }: TableProps) => {
+}
+
+export const Table = ({ isLoggedIn }: TableProps) => {
     const [customers, setCustomers] = useState<Customer[]>([]);
-  
+    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const navigate = useNavigate();
+
     useEffect(() => { 
-      fetch('http://localhost:3000/customers/')
-        .then((res) => res.json())
-        .then((data) => setCustomers(data));
+        fetch('http://localhost:3000/customers/')
+            .then((res) => res.json())
+            .then((data) => setCustomers(data));
     }, []);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -34,9 +37,40 @@ interface TableProps {
         setCurrentPage(pageNumber);
     };
 
+    const handleRowClick = (id: number) => {
+        setSelectedId(id);
+    };
+
+    const handleUpdateClick = () => {
+        if (selectedId !== null) {
+            navigate(`/updateUser?id=${selectedId}`);
+        } else {
+            alert('Please select a user to update.');
+        }
+    };
+
     return (
         <div className='table-container'>
             <h2 className='table-title'>Customer List</h2>
+            <div style={{ display: 'flex', gap: '12px', margin: '16px 0' }}>
+                {isLoggedIn &&<button className='add-user-button' onClick={() => navigate('/addUser')}>Add User</button>}
+                {isLoggedIn &&
+                <button
+                    className='update-user-button'
+                    onClick={handleUpdateClick}
+                           disabled={selectedId === null || selectedId === undefined}
+                    style={{
+                    backgroundColor:
+                        selectedId === null || selectedId === undefined
+                            ? '#cccccc'
+                            : '#1e90ff',
+                    cursor:
+                        selectedId === null || selectedId === undefined
+                            ? 'not-allowed'
+                            : 'pointer'
+                    }}  
+                >Update User</button>}
+            </div>
             <table className='customer-table'>
                 <thead>
                     <tr>
@@ -47,9 +81,16 @@ interface TableProps {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentCustomers.map((customer, idx) => (
-                        <tr key={idx}>
-                            <td>{customer.id}</td>
+                    {currentCustomers.map((customer) => (
+                        <tr
+                            key={customer.id}
+                            className={selectedId === customer.id ? 'selected-row' : ''}
+                            onClick={() => handleRowClick(customer.id)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <td>
+                                {selectedId === customer.id ? <b>{customer.id}</b> : customer.id}
+                            </td>
                             <td>{customer.name}</td>
                             {isLoggedIn && <td>{customer.email}</td>}
                             {isLoggedIn && <td>{customer.password}</td>}
