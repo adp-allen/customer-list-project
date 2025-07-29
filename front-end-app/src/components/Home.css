@@ -1,0 +1,48 @@
+/* Home.css */
+
+.table-header-container {
+  position: relative;
+  margin-bottom: 1rem;
+  height: 40px; /* match height for vertical alignment */
+}
+
+.search-bar-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.table-title {
+  text-align: center;
+  line-height: 40px; /* vertically center text */
+  margin: 0;
+  pointer-events: none; /* avoid pointer blocking */
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Optional: style inputs and select in search bar nicely */
+.search-bar-wrapper select,
+.search-bar-wrapper input {
+  padding: 4px 8px;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive tweak for small screens */
+@media (max-width: 480px) {
+  .table-header-container {
+    height: auto;
+  }
+  .search-bar-wrapper {
+    position: static;
+    margin-bottom: 0.5rem;
+  }
+  .table-title {
+    text-align: left;
+    line-height: normal;
+    pointer-events: auto;
+  }
+}
