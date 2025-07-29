@@ -15,10 +15,18 @@ interface TableProps {
   export const Table = ({ isLoggedIn }: TableProps) => {
     const [customers, setCustomers] = useState<Customer[]>([]);
   
-    useEffect(() => { 
-      fetch('http://localhost:3000/customers/')
-        .then((res) => res.json())
-        .then((data) => setCustomers(data));
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                const res = await fetch('http://localhost:3000/customers/');
+                const data = await res.json();
+                setCustomers(data);
+            } catch (error) {
+                console.error('Error fetching customers:', error);
+                setCustomers([]);
+            }
+        };
+        fetchCustomers();
     }, []);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,7 +65,7 @@ interface TableProps {
                     ))}
                 </tbody>
             </table>
-            <div className='pagination'>
+            <div className='pagination' data-testid='pagination'>
                 <button
                     className='page-button'
                     disabled={currentPage === 1}
