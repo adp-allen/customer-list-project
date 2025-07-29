@@ -23,6 +23,18 @@
       "email": "allen@test.com",
       "password": "hi",
       "id": "1753731481074"
+    },
+    {
+      "name": "alex",
+      "email": "alex@gmail.com",
+      "password": "lolol",
+      "id": "1753732181770"
+    },
+    {
+      "name": "joseph",
+      "email": "j@gmail.com",
+      "password": "dffadfadf",
+      "id": "1753732499189"
     }
   ]
 }
