@@ -2,15 +2,9 @@
   "customers": [
     {
       "id": 2,
-      "name": "awelkjfawfw",
-      "email": "awfeaf",
-      "password": "awfewaf"
-    },
-    {
-      "name": "Test User",
-      "email": "test@abc.com",
-      "password": "testpass",
-      "id": "1753725671662"
+      "name": "Alfred Wayne",
+      "email": "bestbutler@gmail.com",
+      "password": "coffee"
     },
     {
       "name": "allen",
@@ -19,16 +13,46 @@
       "id": "1753731481074"
     },
     {
-      "name": "alex",
-      "email": "alex@gmail.com",
-      "password": "lolol",
-      "id": "1753732181770"
+      "name": "abc",
+      "email": "def",
+      "password": "ghi",
+      "id": "1753732499189"
     },
     {
-      "name": "a",
-      "email": "a",
-      "password": "a",
-      "id": "1753732499189"
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753811983269"
+    },
+    {
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753811987692"
+    },
+    {
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753811991690"
+    },
+    {
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753811996186"
+    },
+    {
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753812000325"
+    },
+    {
+      "name": "aa",
+      "email": "aa",
+      "password": "aa",
+      "id": "1753812004964"
     }
   ]
 }

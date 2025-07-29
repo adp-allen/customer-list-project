@@ -52,7 +52,7 @@ export const Table = ({ isLoggedIn }: TableProps) => {
     return (
         <div className='table-container'>
             <h2 className='table-title'>Customer List</h2>
-            <div style={{ display: 'flex', gap: '12px', margin: '16px 0' }}>
+            <div className='table-action-buttons'>
                 {isLoggedIn &&<button className='add-user-button' onClick={() => navigate('/addUser')}>Add User</button>}
                 {isLoggedIn &&
                 <button

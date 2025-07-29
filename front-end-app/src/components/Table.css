@@ -44,8 +44,16 @@
   transition: background-color 0.2s ease;
 }
 
+.table-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
 .add-user-button,
 .update-user-button {
+  float: right;
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
   background-color: #1e90ff;
@@ -55,6 +63,8 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 1rem;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
