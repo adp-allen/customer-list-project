@@ -4,23 +4,32 @@ import LoginModal from './LoginModal';
 import { useAuth } from '../AuthContext';
 
 function Home() {
-  const { isLoggedIn, login, logout } = useAuth();
+  const { login } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
 
   const handleLoginSuccess = () => {
     login();
     setShowLogin(false);
+    window.location.assign('/dash');
   };
+
+  const loginHandler = () => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      window.location.assign('/dash')
+    } else {
+      setShowLogin(true)
+    }
+  }
 
   return (
     <div className="container-fluid">
       <button
         className="auth-btn"
-        onClick={isLoggedIn ? logout : () => setShowLogin(true)}
+        onClick={loginHandler}
       >
-        {isLoggedIn ? 'Logout' : 'Login'}
+        Login
       </button>
-      <Table isLoggedIn={isLoggedIn} />
+      <Table isLoggedIn={false} />
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
