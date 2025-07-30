@@ -4,6 +4,8 @@ import SearchBar, { type FilterKey } from './SearchBar';
 import { Table } from './Table';
 import LoginModal from './LoginModal';
 import { useAuth } from '../AuthContext';
+import './Home.css';
+
 
 function Home() {
   const { login } = useAuth();
@@ -39,7 +41,7 @@ function Home() {
             searchValue={searchValue}
             onFieldChange={setSelectedField}
             onSearchChange={setSearchValue}
-            allowedFields={['all', 'id', 'name']} // limit fields here
+            allowedFields={['all', 'id', 'name']} 
           />
         </div>
 
