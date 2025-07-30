@@ -7,7 +7,8 @@ function AddUser() {
     const [password, setPassword] = useState('')
     const navigate = window.location ? (path: string) => window.location.assign(path) : () => {}
 
-    const handleSave = async () => {
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
         const user = { name, email, password }
         const token = localStorage.getItem('authToken')
         console.log(JSON.stringify(user))
@@ -20,7 +21,11 @@ function AddUser() {
                 },
                 body: JSON.stringify(user)
             })
-            if (res.ok) navigate('/dash')
+            if (res.ok) {
+                localStorage.removeItem('customerData');
+                localStorage.removeItem('customerDataTimestamp');
+                navigate('/dash')
+            }
         } catch (err) {
             alert('Failed to add user')
         }
@@ -74,9 +79,27 @@ function AddUser() {
                 <input type='text' value={name} onChange={e => setName(e.target.value)} />
 
                 <p>Email</p>
-                <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
+                <input 
+                    type='email' 
+                    value={email} 
+                    onChange={e => {
+                        setEmail(e.target.value);
+                        const emailErrorElement = document.getElementById('email-error');
+                        if (emailErrorElement && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value)) {
+                            emailErrorElement.textContent = '';
+                        }
+                    }} 
+                    onBlur={() => {
+                        const emailErrorElement = document.getElementById('email-error');
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && emailErrorElement) {
+                            emailErrorElement.textContent = 'Please enter a valid email address';
+                        }
+                    }}
+                />
+                <span id="email-error" className="error-message" style={{ color: 'red' }}></span>
+
                 <p>Password</p>
-                <input type='text' value={password} onChange={e => setPassword(e.target.value)} />
+                <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
             </div>
             <div className='add-user-buttons'>
                 <button className='add-user-cancel-button' onClick={handleCancel}>Cancel</button>
