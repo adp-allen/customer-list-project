@@ -4,6 +4,7 @@ const cors = require('cors')
 const JsonDatabase = require('./db')
 const { exportToCSV, exportToXLSX } = require('./exportData')
 const Logger = require('./logger')
+const { validateEmail, validateName, validatePassword } = require('./validators')
 
 // create app
 const app = express()
@@ -54,6 +55,16 @@ app.get('/customers/:id', async (req, res) => {
 // Add new customer
 app.post('/customers', async (req, res) => {
     try {
+        const { name, email, password } = req.body
+        if (!validateEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format.' })
+        }
+        if (!validateName(name)) {
+            return res.status(400).json({ error: 'Name must contain only letters and spaces.' })
+        }
+        if (!validatePassword(password)) {
+            return res.status(400).json({ error: 'Password must have uppercase, lowercase, number, special character, and be at least 6 characters.' })
+        }
         const newCustomer = await customerDb.add(req.body)
         res.status(201).json(newCustomer)
     } catch (err) {
@@ -64,6 +75,16 @@ app.post('/customers', async (req, res) => {
 // Update customer by id
 app.put('/customers/:id', async (req, res) => {
     try {
+        const { name, email, password } = req.body
+        if (!validateEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format.' })
+        }
+        if (!validateName(name)) {
+            return res.status(400).json({ error: 'Name must contain only letters and spaces.' })
+        }
+        if (!validatePassword(password)) {
+            return res.status(400).json({ error: 'Password must have uppercase, lowercase, number, special character, and be at least 6 characters.' })
+        }
         const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
         const updated = await customerDb.updateById(id, req.body)
         if (!updated) 
