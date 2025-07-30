@@ -39,8 +39,8 @@ function AddUser() {
         navigate('/dash')
     }
 
-    const handleAttach = (e: React.FormEvent, event: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
+    const handleAttach = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
         const file = event.target.files?.[0];
         if (!file) {
             alert('No file selected');
@@ -121,7 +121,7 @@ function AddUser() {
                     type='file'
                     accept='.csv'
                     style={{ display: 'none' }}
-                    onChange={() => handleAttach}
+                    onChange={handleAttach}
                 />
                 <button className='add-user-save-button' onClick={handleSave}>Save</button>
             </div>
