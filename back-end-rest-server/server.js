@@ -3,10 +3,12 @@ const express = require('express')
 const cors = require('cors')
 const JsonDatabase = require('./db')
 const { exportToCSV, exportToXLSX } = require('./exportData')
+const Logger = require('./logger')
 
 // create app
 const app = express()
 const port = 3000
+const logger = new Logger()
 
 // import json data storage
 const customerDb = new JsonDatabase('data.json')
@@ -14,6 +16,12 @@ const customerDb = new JsonDatabase('data.json')
 // middleware
 app.use(express.json())
 app.use(cors())
+
+// Logger middleware
+app.use((req, res, next) => {
+    logger.log(`${req.method} ${req.url}`)
+    next()
+})
 
 // static assets and routing
 
@@ -116,5 +124,5 @@ app.get('/export/json', (req, res) => {
 
 // start server
 app.listen(port, () => {
-    console.log('Server is running on port: ', port)
+    logger.log(`Server is running on port: ${port}`)
 })

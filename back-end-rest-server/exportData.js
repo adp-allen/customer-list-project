@@ -1,6 +1,9 @@
 const fs = require('fs').promises;
 const path = require('path');
 const XLSX = require('xlsx');
+const Logger = require('./logger');
+
+const logger = new Logger()
 
 async function exportToCSV() {
     const dataPath = path.join(__dirname, 'data.json');
@@ -10,7 +13,7 @@ async function exportToCSV() {
     const customers = parsed.customers || [];
 
     if (customers.length === 0) {
-        console.log('No customers to export.');
+        logger.log('No customers to export.');
         return;
     }
 
@@ -21,7 +24,7 @@ async function exportToCSV() {
     const csv = [header, ...rows].join('\n');
 
     await fs.writeFile(outPath, csv);
-    console.log('Exported to customers.csv');
+    logger.log('Exported to customers.csv');
 }
 
 async function exportToXLSX() {
@@ -32,7 +35,7 @@ async function exportToXLSX() {
     const customers = parsed.customers || [];
 
     if (customers.length === 0) {
-        console.log('No customers to export.');
+        logger.log('No customers to export.');
         return;
     }
 
@@ -41,7 +44,7 @@ async function exportToXLSX() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
     XLSX.writeFile(workbook, outPath);
-    console.log('Exported to customers.xlsx');
+    logger.log('Exported to customers.xlsx');
 }
 
 module.exports = {
