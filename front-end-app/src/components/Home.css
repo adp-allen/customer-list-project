@@ -2,7 +2,6 @@
   padding: 2rem;
 }
 
-/* Login Button */
 .auth-btn {
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
@@ -19,7 +18,6 @@
   background-color: #0d6efd;
 }
 
-/* Header row: search left, title centered */
 .table-header-container {
   display: flex;
   align-items: center;
@@ -28,7 +26,6 @@
   margin-bottom: 2rem;
 }
 
-/* Left-aligned search bar (dropdown + input), no box styling */
 .search-bar-wrapper {
   display: flex;
   flex-direction: row;
@@ -37,7 +34,6 @@
   left: 0;
 }
 
-/* Dropdown */
 .search-bar-wrapper select {
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -55,7 +51,6 @@
   background-repeat: no-repeat;
 }
 
-/* Search input */
 .search-bar-wrapper input {
   flex: 1;
   padding: 0.75rem 1rem;
@@ -74,7 +69,6 @@
   box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.2);
 }
 
-/* Title stays centered */
 .table-title {
   font-size: 1.8rem;
   font-weight: bold;
