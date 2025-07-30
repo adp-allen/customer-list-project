@@ -117,7 +117,7 @@ function AddUser() {
                     type='file'
                     accept='.csv'
                     style={{ display: 'none' }}
-                    onChange={handleAttach}
+                    onChange={() => handleAttach}
                 />
                 <button className='add-user-save-button' onClick={handleSave}>Save</button>
             </div>

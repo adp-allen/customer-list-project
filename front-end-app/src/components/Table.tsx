@@ -76,6 +76,10 @@ export const Table = ({
     fetchCustomers();
   }, [])
 
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page when searchValue or selectedField changes
+  }, [searchValue, selectedField]);
+  
   const filteredCustomers = customers.filter((customer) => {
     if (!searchValue.trim()) return true;
 
