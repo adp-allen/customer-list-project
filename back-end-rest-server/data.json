@@ -4,7 +4,7 @@
       "id": 2,
       "name": "Alfred Wayne",
       "email": "bestbutler@gmail.com",
-      "password": "coffee"
+      "password": "Coffeeee123*"
     },
     {
       "name": "allen",
@@ -65,6 +65,12 @@
       "email": "allen@gmail.com",
       "password": "Allen1234*",
       "id": "1753886201408"
+    },
+    {
+      "name": "hi",
+      "email": "hi@gmail.com",
+      "password": "Hi1234*",
+      "id": "1753890330789"
     }
   ]
 }

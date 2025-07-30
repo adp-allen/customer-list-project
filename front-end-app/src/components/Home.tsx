@@ -4,17 +4,17 @@ import LoginModal from './LoginModal';
 import { useAuth } from '../AuthContext';
 
 function Home() {
-  const { login } = useAuth();
+  const { login, isLoggedIn } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
 
-  const handleLoginSuccess = () => {
-    login();
+  const handleLoginSuccess = (token?: string) => {
+    if (token) login(token);
     setShowLogin(false);
     window.location.assign('/dash');
   };
 
   const loginHandler = () => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
+    if (isLoggedIn) {
       window.location.assign('/dash')
     } else {
       setShowLogin(true)
@@ -29,7 +29,7 @@ function Home() {
       >
         Login
       </button>
-      <Table isLoggedIn={false} />
+      <Table isLoggedIn={isLoggedIn} />
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}

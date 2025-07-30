@@ -5,6 +5,9 @@ const JsonDatabase = require('./db')
 const { exportToCSV, exportToXLSX } = require('./exportData')
 const Logger = require('./logger')
 const { validateEmail, validateName, validatePassword } = require('./validators')
+const { generateToken, verifyToken } = require('./auth')
+const fs = require('fs').promises
+const path = require('path')
 
 // create app
 const app = express()
@@ -24,10 +27,37 @@ app.use((req, res, next) => {
     next()
 })
 
+// Auth middleware
+function authMiddleware(req, res, next) {
+    // Token from Authorization header
+    const token = req.headers.authorization
+    if (!token || !verifyToken(token)) {
+        return res.status(401).json({ error: 'Unauthorized' })
+    }
+    next()
+}
+
 // static assets and routing
 
 
 // create handlers
+// Login handler
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body
+        const adminsPath = path.join(__dirname, 'admins.json')
+        const raw = await fs.readFile(adminsPath, 'utf-8')
+        const { admins } = JSON.parse(raw)
+        const found = admins.find(a => a.username === username && a.password === password)
+        if (!found) {
+            return res.status(401).json({ error: 'Invalid credentials' })
+        }
+        const token = generateToken()
+        res.json({ token })
+    } catch (err) {
+        res.status(500).json({ error: 'Login failed' })
+    }
+})
 // -----------------
 // Get all customers
 app.get('/customers', async (req, res) => {
@@ -40,7 +70,7 @@ app.get('/customers', async (req, res) => {
 })
 
 // Get customer by id
-app.get('/customers/:id', async (req, res) => {
+app.get('/customers/:id', authMiddleware, async (req, res) => {
     try {
         // id in data.json is a number, so convert to number for search
         const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
@@ -53,7 +83,7 @@ app.get('/customers/:id', async (req, res) => {
 })
 
 // Add new customer
-app.post('/customers', async (req, res) => {
+app.post('/customers', authMiddleware, async (req, res) => {
     try {
         const { name, email, password } = req.body
         if (!validateEmail(email)) {
@@ -73,7 +103,7 @@ app.post('/customers', async (req, res) => {
 })
 
 // Update customer by id
-app.put('/customers/:id', async (req, res) => {
+app.put('/customers/:id', authMiddleware, async (req, res) => {
     try {
         const { name, email, password } = req.body
         if (!validateEmail(email)) {
@@ -96,7 +126,7 @@ app.put('/customers/:id', async (req, res) => {
 })
 
 // Delete customer by id
-app.delete('/customers/:id', async (req, res) => {
+app.delete('/customers/:id', authMiddleware, async (req, res) => {
     try {
         const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id)
         const result = await customerDb.deleteById(id)
@@ -108,7 +138,7 @@ app.delete('/customers/:id', async (req, res) => {
 
 
 // Download customers.csv
-app.get('/export/csv', async (req, res) => {
+app.get('/export/csv', authMiddleware, async (req, res) => {
     try {
         await exportToCSV()
         const filePath = require('path').join(__dirname, 'customers.csv')
@@ -121,7 +151,7 @@ app.get('/export/csv', async (req, res) => {
 })
 
 // Download customers.xlsx
-app.get('/export/xlsx', async (req, res) => {
+app.get('/export/xlsx', authMiddleware, async (req, res) => {
     try {
         await exportToXLSX()
         const filePath = require('path').join(__dirname, 'customers.xlsx')
@@ -134,7 +164,7 @@ app.get('/export/xlsx', async (req, res) => {
 })
 
 // Download raw JSON data
-app.get('/export/json', (req, res) => {
+app.get('/export/json', authMiddleware, (req, res) => {
     const filePath = require('path').join(__dirname, 'data.json');
     res.download(filePath, 'data.json', err => {
         if (err) res.status(500).json({ error: 'Failed to download JSON.' });
