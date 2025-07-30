@@ -51,6 +51,10 @@ function UpdateUser() {
                 localStorage.removeItem('customerDataTimestamp');
                 navigate('/dash')
             }
+            if (res.status == 400) {
+                const data = await res.json()
+                alert(data.error)
+            }
         } catch (err) {
             alert('Failed to update user')
         }
@@ -76,6 +80,10 @@ function UpdateUser() {
                 localStorage.removeItem('customerDataTimestamp');
                 navigate('/dash');
             }   
+            if (res.status == 400) {
+                const data = await res.json()
+                alert(data.error)
+            }
         } catch (err) {
             alert('Failed to delete user');
         }
@@ -106,7 +114,7 @@ function UpdateUser() {
             {showConfirm && (
                 <ConfirmModal
                     message="Are you sure you want to delete this user?"
-                    onConfirm={() => confirmDelete}
+                    onConfirm={confirmDelete}
                     onCancel={() => setShowConfirm(false)}
                 />
             )}

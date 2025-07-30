@@ -2,7 +2,7 @@ import './LoginModal.css';
 
 interface ConfirmModalProps {
   message: string;
-  onConfirm: () => void;
+  onConfirm: any;
   onCancel: () => void;
 }
 

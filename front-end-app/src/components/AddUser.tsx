@@ -25,6 +25,10 @@ function AddUser() {
                 localStorage.removeItem('customerData');
                 localStorage.removeItem('customerDataTimestamp');
                 navigate('/dash')
+            } 
+            if (res.status == 400) {
+                const data = await res.json()
+                alert(data.error)
             }
         } catch (err) {
             alert('Failed to add user')
