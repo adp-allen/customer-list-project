@@ -53,10 +53,19 @@
     color: #fff;
 }
 
+.add-user-buttons button.add-user-attach-button {
+    background: purple;
+    color: #fff;
+}
+
 .add-user-buttons button.add-user-cancel-button:hover {
     background: lightgray;
 }
 
 .add-user-buttons button.add-user-save-button:hover {
     background: lightgreen;
+}
+
+.add-user-buttons button.add-user-attach-button:hover {
+    background: plum;
 }

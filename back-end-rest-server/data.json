@@ -4,13 +4,7 @@
       "id": 2,
       "name": "Alfred Wayne",
       "email": "bestbutler@gmail.com",
-      "password": "coffee"
-    },
-    {
-      "name": "allen",
-      "email": "allen@test.com",
-      "password": "hi",
-      "id": "1753731481074"
+      "password": "Coffeeee123*"
     },
     {
       "name": "abc",
@@ -23,6 +17,54 @@
       "email": "iambatman@gmail.com",
       "password": "gotham",
       "id": "1753817543432"
+    },
+    {
+      "name": "Bob Joe",
+      "email": "bobjoe123@gmail.com",
+      "password": "bobjoe123",
+      "id": "1753888600557"
+    },
+    {
+      "name": "Samuel Colt",
+      "email": "samcolt@gmail.com",
+      "password": "Samcolt12*",
+      "id": "1753888600569"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600582"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600596"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600614"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600629"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600641"
+    },
+    {
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600654"
     }
   ]
 }

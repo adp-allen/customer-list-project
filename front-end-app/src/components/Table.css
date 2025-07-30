@@ -1,3 +1,4 @@
+
 .table-container {
   width: 100%;
   max-width: 900px;
@@ -119,3 +120,9 @@
   font-weight: 600;
 
 }
+
+.selected-row {
+  background-color: #f0f0f0; /* light gray */
+  font-weight: bold; /* optional, if you want it bold too */
+}
+

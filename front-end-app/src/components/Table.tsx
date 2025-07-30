@@ -115,9 +115,9 @@ export const Table = ({
   };
 
   const handleRowClick = (id: number) => {
-    setSelectedId(id);
+    setSelectedId((prevSelectedId) => (prevSelectedId === id ? null : id));
   };
-
+  
   const handleUpdateClick = () => {
     if (selectedId !== null) {
       navigate(`/updateUser?id=${selectedId}`);
@@ -197,7 +197,7 @@ export const Table = ({
             </tbody>
           </table>
 
-          <div className="pagination" data-testid="pagination">
+            <div className="pagination" data-testid="pagination">
             <button
               className="page-button"
               disabled={currentPage === 1}
@@ -205,15 +205,20 @@ export const Table = ({
             >
               &lt;
             </button>
-            {Array.from({ length: totalPages }, (_, index) => (
+            {Array.from({ length: Math.min(5, totalPages) }, (_, index) => {
+              const startPage = Math.max(1, currentPage - 2);
+              const pageNumber = startPage + index;
+              if (pageNumber > totalPages) return null;
+              return (
               <button
-                key={index}
-                className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
-                onClick={() => handlePageChange(index + 1)}
+                key={pageNumber}
+                className={`page-button ${currentPage === pageNumber ? 'active' : ''}`}
+                onClick={() => handlePageChange(pageNumber)}
               >
-                {index + 1}
+                {pageNumber}
               </button>
-            ))}
+              );
+            })}
             <button
               className="page-button"
               disabled={currentPage === totalPages}
@@ -221,7 +226,7 @@ export const Table = ({
             >
               &gt;
             </button>
-          </div>
+            </div>
         </>
       )}
     </div>

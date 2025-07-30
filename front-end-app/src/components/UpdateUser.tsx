@@ -15,7 +15,12 @@ function UpdateUser() {
     // Fetch user data when component mounts
     useEffect(() => {
         if (id) {
-            fetch(`http://localhost:3000/customers/${id}`)
+            const token = localStorage.getItem('authToken')
+            fetch(`http://localhost:3000/customers/${id}`, {
+                headers: {
+                    'Authorization': token || ''
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     setName(data.name || '');
@@ -31,10 +36,14 @@ function UpdateUser() {
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         const user = { name, email, password }
+        const token = localStorage.getItem('authToken')
         try {
             const res = await fetch(`http://localhost:3000/customers/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token || ''
+                },
                 body: JSON.stringify(user)
             })
             if (res.ok) {
@@ -53,10 +62,14 @@ function UpdateUser() {
 
     const confirmDelete = async (e: React.FormEvent) => {
         setShowConfirm(false);
+        const token = localStorage.getItem('authToken')
         e.preventDefault();
         try {
             const res = await fetch(`http://localhost:3000/customers/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token || ''
+                }
             });
             if (res.ok) {
                 localStorage.removeItem('customerData');
