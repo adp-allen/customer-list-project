@@ -17,6 +17,12 @@
       "email": "def",
       "password": "ghi",
       "id": "1753732499189"
+    },
+    {
+      "name": "Bruce Wayne",
+      "email": "iambatman@gmail.com",
+      "password": "gotham",
+      "id": "1753817543432"
     }
   ]
 }

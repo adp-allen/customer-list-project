@@ -1,11 +1,16 @@
+// Home.tsx
 import { useState } from 'react';
 import { Table } from './Table';
 import LoginModal from './LoginModal';
 import { useAuth } from '../AuthContext';
+import type { FilterKey } from './SearchBar';
 
 function Home() {
   const { login } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
+
+  const [selectedField, setSelectedField] = useState<FilterKey>('all');
+  const [searchValue, setSearchValue] = useState('');
 
   const handleLoginSuccess = () => {
     login();
@@ -15,21 +20,26 @@ function Home() {
 
   const loginHandler = () => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      window.location.assign('/dash')
+      window.location.assign('/dash');
     } else {
-      setShowLogin(true)
+      setShowLogin(true);
     }
-  }
+  };
 
   return (
     <div className="container-fluid">
-      <button
-        className="auth-btn"
-        onClick={loginHandler}
-      >
+      <button className="auth-btn" onClick={loginHandler}>
         Login
       </button>
-      <Table isLoggedIn={false} />
+
+      <Table
+        isLoggedIn={false}
+        selectedField={selectedField}
+        searchValue={searchValue}
+        onFieldChange={setSelectedField}
+        onSearchChange={setSearchValue}
+      />
+
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
@@ -41,3 +51,4 @@ function Home() {
 }
 
 export default Home;
+
