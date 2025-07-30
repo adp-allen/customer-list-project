@@ -71,6 +71,12 @@
       "email": "lol",
       "password": "lol",
       "id": "1753883505233"
+    },
+    {
+      "name": "Bruce Wayne",
+      "email": "iambatman@gmail.com",
+      "password": "gotham",
+      "id": "1753817543432"
     }
   ]
 }
