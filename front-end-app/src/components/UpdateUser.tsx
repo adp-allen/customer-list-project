@@ -28,7 +28,8 @@ function UpdateUser() {
         }
     }, [id]);
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
         const user = { name, email, password }
         try {
             const res = await fetch(`http://localhost:3000/customers/${id}`, {
@@ -36,7 +37,11 @@ function UpdateUser() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)
             })
-            if (res.ok) navigate('/dash')
+            if (res.ok) {
+                localStorage.removeItem('customerData');
+                localStorage.removeItem('customerDataTimestamp');
+                navigate('/dash')
+            }
         } catch (err) {
             alert('Failed to update user')
         }
@@ -46,13 +51,18 @@ function UpdateUser() {
         setShowConfirm(true);
     };
 
-    const confirmDelete = async () => {
+    const confirmDelete = async (e: React.FormEvent) => {
         setShowConfirm(false);
+        e.preventDefault();
         try {
             const res = await fetch(`http://localhost:3000/customers/${id}`, {
                 method: 'DELETE'
             });
-            if (res.ok) navigate('/dash');
+            if (res.ok) {
+                localStorage.removeItem('customerData');
+                localStorage.removeItem('customerDataTimestamp');
+                navigate('/dash');
+            }   
         } catch (err) {
             alert('Failed to delete user');
         }
@@ -83,7 +93,7 @@ function UpdateUser() {
             {showConfirm && (
                 <ConfirmModal
                     message="Are you sure you want to delete this user?"
-                    onConfirm={confirmDelete}
+                    onConfirm={() => confirmDelete}
                     onCancel={() => setShowConfirm(false)}
                 />
             )}
