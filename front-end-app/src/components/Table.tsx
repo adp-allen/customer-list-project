@@ -25,7 +25,7 @@ export const Table = ({ isLoggedIn }: TableProps) => {
                 const data = await res.json();
                 setCustomers(data);
             } catch (error) {
-                console.error('Error fetching customers:', error);
+                console.error('Error fetching customers:', error);~~
                 setCustomers([]);
             }
         };
