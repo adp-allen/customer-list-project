@@ -29,52 +29,23 @@ export const Table = ({
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [lastFetched, setLastFetched] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const CACHE_EXPIRY = 5 * 60 * 1000;
   const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      setLoading(true);
       try {
-        const cachedData = localStorage.getItem("customerData")
-        const cachedTimestamp = localStorage.getItem("customerDataTimestamp");
-        if (cachedData && cachedTimestamp) {
-          const timestamp = parseInt(cachedTimestamp, 10);
-          const now = Date.now();
-          if (now - timestamp < CACHE_EXPIRY) {
-            setCustomers(JSON.parse(cachedData));
-            setLastFetched(timestamp);
-            setLoading(false);
-            return;
-          }
-        }
-        // Cache expired or invalidated, fetch fresh data
         const res = await fetch('http://localhost:3000/customers/');
         const data = await res.json();
         setCustomers(data);
-        localStorage.setItem("customerData", JSON.stringify(data));
-        localStorage.setItem("customerDataTimestamp", Date.now().toString());
-        setLastFetched(Date.now());
-
       } catch (error) {
         console.error('Error fetching customers:', error);
-        // If fetch fails, try to use cached data
-        const cachedData = localStorage.getItem("customerData");
-        if (cachedData) {
-          setCustomers(JSON.parse(cachedData));
-        } else {
-          setCustomers([]);
-        }
-      } finally {
-        setLoading(false);
+        setCustomers([]);
       }
     };
     fetchCustomers();
-  }, [])
+  }, []);
 
   const filteredCustomers = customers.filter((customer) => {
     if (!searchValue.trim()) return true;
@@ -115,9 +86,9 @@ export const Table = ({
   };
 
   const handleRowClick = (id: number) => {
-    setSelectedId(id);
+    setSelectedId((prevSelectedId) => (prevSelectedId === id ? null : id));
   };
-
+  
   const handleUpdateClick = () => {
     if (selectedId !== null) {
       navigate(`/updateUser?id=${selectedId}`);
@@ -129,101 +100,92 @@ export const Table = ({
   return (
     <div className="table-container">
       <h2 className="table-title">Customer List</h2>
-      {lastFetched && (
-        <div className="cache-info">
-          Last updated: {new Date(lastFetched).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: "numeric", hour: '2-digit', minute: "2-digit" })}
-        </div>
-      )}
-      {loading ? (
-        <div className='loading'>Loading...</div>
-      ) : (
-        <>
-          <div className="table-action-buttons" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <div className="search-bar-wrapper" style={{ flexGrow: 1 }}>
-              <SearchBar
-                selectedField={selectedField}
-                searchValue={searchValue}
-                onFieldChange={onFieldChange}
-                onSearchChange={onSearchChange}
-              />
-            </div>
 
-            <div className="button-group" style={{ display: 'flex', gap: '0.5rem' }}>
-              {isLoggedIn && (
-                <button className="add-user-button" onClick={() => navigate('/addUser')}>
-                  Add User
-                </button>
-              )}
-              {isLoggedIn && (
-                <button
-                  className="update-user-button"
-                  onClick={handleUpdateClick}
-                  disabled={selectedId === null}
-                  style={{
-                    backgroundColor: selectedId === null ? '#cccccc' : '#1e90ff',
-                    cursor: selectedId === null ? 'not-allowed' : 'pointer',
-                  }}
-                >
-                  Update User
-                </button>
-              )}
-            </div>
-          </div>
+      <div className="table-action-buttons" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+  <div className="search-bar-wrapper" style={{ flexGrow: 1 }}>
+    <SearchBar
+      selectedField={selectedField}
+      searchValue={searchValue}
+      onFieldChange={onFieldChange}
+      onSearchChange={onSearchChange}
+    />
+  </div>
+
+  <div className="button-group" style={{ display: 'flex', gap: '0.5rem' }}>
+    {isLoggedIn && (
+      <button className="add-user-button" onClick={() => navigate('/addUser')}>
+        Add User
+      </button>
+    )}
+    {isLoggedIn && (
+      <button
+        className="update-user-button"
+        onClick={handleUpdateClick}
+        disabled={selectedId === null}
+        style={{
+          backgroundColor: selectedId === null ? '#cccccc' : '#1e90ff',
+          cursor: selectedId === null ? 'not-allowed' : 'pointer',
+        }}
+      >
+        Update User
+      </button>
+    )}
+  </div>
+</div>
 
 
-          <table className="customer-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                {isLoggedIn && <th>Email</th>}
-                {isLoggedIn && <th>Password</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {currentCustomers.map((customer) => (
-                <tr
-                  key={customer.id}
-                  className={selectedId === customer.id ? 'selected-row' : ''}
-                  onClick={() => handleRowClick(customer.id)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <td>{selectedId === customer.id ? <b>{customer.id}</b> : customer.id}</td>
-                  <td>{customer.name}</td>
-                  {isLoggedIn && <td>{customer.email}</td>}
-                  {isLoggedIn && <td>{customer.password}</td>}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="pagination" data-testid="pagination">
-            <button
-              className="page-button"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
+      <table className="customer-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            {isLoggedIn && <th>Email</th>}
+            {isLoggedIn && <th>Password</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {currentCustomers.map((customer) => (
+            <tr
+              key={customer.id}
+              className={selectedId === customer.id ? 'selected-row' : ''}
+              onClick={() => handleRowClick(customer.id)}
+              style={{ cursor: 'pointer' }}
             >
-              &lt;
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              className="page-button"
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              &gt;
-            </button>
-          </div>
-        </>
-      )}
+              <td>{selectedId === customer.id ? <b>{customer.id}</b> : customer.id}</td>
+              <td>{customer.name}</td>
+              {isLoggedIn && <td>{customer.email}</td>}
+              {isLoggedIn && <td>{customer.password}</td>}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="pagination" data-testid="pagination">
+        <button
+          className="page-button"
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          &lt;
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          className="page-button"
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          &gt;
+        </button>
+      </div>
     </div>
   );
 };
+
