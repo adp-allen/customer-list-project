@@ -1,0 +1,16 @@
+{
+  "customers": [
+    {
+      "id": "1",
+      "name": "A",
+      "email": "a@a.com",
+      "password": "Test1!"
+    },
+    {
+      "id": "2",
+      "name": "B",
+      "email": "b@b.com",
+      "password": "Test2@"
+    }
+  ]
+}
