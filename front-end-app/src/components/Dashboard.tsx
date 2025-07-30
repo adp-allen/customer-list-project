@@ -1,3 +1,5 @@
+
+
 // Dashboard.tsx
 import { useState } from 'react';
 import SearchBar, { type FilterKey } from './SearchBar';
@@ -47,3 +49,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

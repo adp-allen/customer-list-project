@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../AuthContext'
 import './LoginModal.css';
 
@@ -24,7 +24,7 @@ const LoginModal = ({ onClose, onLoginSuccess }: LoginModalProps) => {
         },
         body: JSON.stringify({ username, password })
       })
-      const data = await res.json()
+        const data = await res.json()
       if (res.ok && data.token) {
         login(data.token)
         onLoginSuccess()
