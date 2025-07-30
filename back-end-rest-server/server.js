@@ -19,6 +19,7 @@ const customerDb = new JsonDatabase('data.json')
 
 // middleware
 app.use(express.json())
+app.use(express.text())
 app.use(cors())
 
 // Logger middleware
@@ -101,6 +102,40 @@ app.post('/customers', authMiddleware, async (req, res) => {
         res.status(500).json({ error: 'Failed to add customer.' })
     }
 })
+
+app.post('/api/customers', express.text({ type: 'text/plain' }), async (req, res) => {
+    try {
+        const csvData = req.body; // Expecting raw CSV data in the request body
+        const rows = csvData.split('\n').filter(row => row.trim() !== '');
+        const headers = rows[0].split(',').map(header => header.trim());
+
+        // Validate headers
+        if (headers.length !== 3 || headers[0] !== 'customerName' || headers[1] !== 'Username' || headers[2] !== 'Password') {
+            return res.status(400).json({ error: 'Invalid CSV format. Expected headers: customerName, Username, Password' });
+        }
+
+        // Parse rows into customer objects
+        const customers = rows.slice(1).map(row => {
+            const values = row.split(',').map(value => value.trim());
+            return {
+                name: values[0],
+                email: values[1],
+                password: values[2],
+            };
+        });
+
+        // Add customers to the database
+        for (const customer of customers) {
+            await new Promise(resolve => setTimeout(resolve, 10));
+            await customerDb.add(customer);
+        }
+
+        res.status(200).json({ message: 'Customers added successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to process the CSV file.' });
+    }
+});
 
 // Update customer by id
 app.put('/customers/:id', authMiddleware, async (req, res) => {

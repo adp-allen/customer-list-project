@@ -7,70 +7,64 @@
       "password": "Coffeeee123*"
     },
     {
-      "name": "allen",
-      "email": "allen@test.com",
-      "password": "hi",
-      "id": "1753731481074"
-    },
-    {
       "name": "abc",
       "email": "def",
       "password": "ghi",
       "id": "1753732499189"
     },
     {
-      "name": "john",
-      "email": "j@gmail.com",
-      "password": "jonny134134",
-      "id": "1753818658918"
+      "name": "Bruce Wayne",
+      "email": "iambatman@gmail.com",
+      "password": "gotham",
+      "id": "1753817543432"
     },
     {
-      "name": "ally",
-      "email": "als@yahoo.com",
-      "password": "alll34232354",
-      "id": "1753818675425"
+      "name": "Bob Joe",
+      "email": "bobjoe123@gmail.com",
+      "password": "bobjoe123",
+      "id": "1753888600557"
     },
     {
-      "name": "sarah",
-      "email": "sarry@gmail.com",
-      "password": "sasa2324",
-      "id": "1753818697033"
+      "name": "Samuel Colt",
+      "email": "samcolt@gmail.com",
+      "password": "samcolt123",
+      "id": "1753888600569"
     },
     {
-      "name": "jared",
-      "email": "jarr@test.com",
-      "password": "se1234",
-      "id": "1753818731702"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600582"
     },
     {
-      "name": "rere",
-      "email": "retre@gmail.com",
-      "password": "3425",
-      "id": "1753818752134"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600596"
     },
     {
-      "name": "Tara",
-      "email": "tatr@test.com",
-      "password": "1343535",
-      "id": "1753818774871"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600614"
     },
     {
-      "name": "Yona",
-      "email": "yona@test.com",
-      "password": "hi",
-      "id": "1753818791532"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600629"
     },
     {
-      "name": "aleen",
-      "email": "allen@gmail.com",
-      "password": "Allen1234*",
-      "id": "1753886201408"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600641"
     },
     {
-      "name": "hi",
-      "email": "hi@gmail.com",
-      "password": "Hi1234*",
-      "id": "1753890330789"
+      "name": "Johnny",
+      "email": "johnnyjon@gmail.com",
+      "password": "johnjohn",
+      "id": "1753888600654"
     }
   ]
 }
