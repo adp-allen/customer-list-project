@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  login: (token: string) => void;
   logout: () => void;
 }
 
@@ -11,17 +11,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true';
+    return Boolean(localStorage.getItem('authToken'));
   });
 
-  const login = () => {
-  setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', 'true');
+  const login = (token: string) => {
+    localStorage.setItem('authToken', token);
+    setIsLoggedIn(true);
   };
 
   const logout = () => {
-  setIsLoggedIn(false);
-    localStorage.setItem('isLoggedIn', 'false');
+    localStorage.removeItem('authToken');
+    setIsLoggedIn(false);
   }
 
   return (

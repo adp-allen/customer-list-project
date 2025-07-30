@@ -5,8 +5,28 @@ interface ImportDataProps {
 }
 
 function ImportData({ show = false, onCancel }: ImportDataProps) {
-    const handleDownload = (type: 'csv' | 'xlsx' | 'json') => {
-        window.location.href = `http://localhost:3000/export/${type}`
+    const handleDownload = async (type: 'csv' | 'xlsx' | 'json') => {
+        const token = localStorage.getItem('authToken')
+        try {
+            const res = await fetch(`http://localhost:3000/export/${type}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': token || ''
+                }
+            })
+            if (!res.ok) throw new Error('Download failed')
+            const blob = await res.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = `customers.${type}`
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+            window.URL.revokeObjectURL(url)
+        } catch (err) {
+            alert('Download failed. Please check your login.')
+        }
     }
 
     if (!show) return null

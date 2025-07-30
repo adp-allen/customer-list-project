@@ -9,11 +9,15 @@ function AddUser() {
 
     const handleSave = async () => {
         const user = { name, email, password }
+        const token = localStorage.getItem('authToken')
         console.log(JSON.stringify(user))
         try {
             const res = await fetch('http://localhost:3000/customers', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token || ''
+                },
                 body: JSON.stringify(user)
             })
             if (res.ok) navigate('/dash')

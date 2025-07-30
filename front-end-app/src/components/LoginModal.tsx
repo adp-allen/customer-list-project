@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useAuth } from '../AuthContext'
 import './LoginModal.css';
 
 
@@ -8,31 +9,31 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ onClose, onLoginSuccess }: LoginModalProps) => {
-  const [adminUser, setAdminUser] = useState('')
-  const [adminPass, setAdminPass] = useState('')
+  const { login } = useAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    fetch('/admin.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setAdminUser(data.username)
-        setAdminPass(data.password)
+  const handleLogin = async () => {
+    setError('')
+    try {
+      const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
       })
-      .catch((err) => {
-        console.error('Failed to load admin credentials:', err)
-        setError('System error. Please contact support.')
-      })
-  }, [])
-
-  const handleLogin = () => {
-    if (username === adminUser && password === adminPass) {
-      onLoginSuccess()
-      onClose()
-    } else {
-      setError('Invalid username or password')
+      const data = await res.json()
+      if (res.ok && data.token) {
+        login(data.token)
+        onLoginSuccess()
+        onClose()
+      } else {
+        setError(data.error || 'Login failed')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
     }
   }
 
