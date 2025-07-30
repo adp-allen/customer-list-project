@@ -35,7 +35,8 @@ function AddUser() {
         navigate('/dash')
     }
 
-    const handleAttach = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAttach = (e: React.FormEvent, event: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         const file = event.target.files?.[0];
         if (!file) {
             alert('No file selected');
@@ -54,6 +55,8 @@ function AddUser() {
     
                 if (response.ok) {
                     alert('Customers added successfully!');
+                    localStorage.removeItem('customerData');
+                    localStorage.removeItem('customerDataTimestamp');
                     navigate('/dash');
                 } else {
                     alert('Failed to add customers');
