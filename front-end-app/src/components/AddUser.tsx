@@ -15,14 +15,14 @@ function AddUser() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)
             })
-            if (res.ok) navigate('/')
+            if (res.ok) navigate('/dash')
         } catch (err) {
             alert('Failed to add user')
         }
     }
 
     const handleCancel = () => {
-        navigate('/')
+        navigate('/dash')
     }
 
     return (

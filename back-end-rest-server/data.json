@@ -1,22 +1,10 @@
 {
   "customers": [
     {
-      "id": 1,
-      "name": "Karen Addams",
-      "email": "karena@abc.com",
-      "password": "karena"
-    },
-    {
       "id": 2,
-      "name": "Scott Ramsey",
-      "email": "scottr@abc.com",
-      "password": "scottr"
-    },
-    {
-      "name": "Test User",
-      "email": "test@abc.com",
-      "password": "testpass",
-      "id": "1753725671662"
+      "name": "Alfred Wayne",
+      "email": "bestbutler@gmail.com",
+      "password": "coffee"
     },
     {
       "name": "allen",
@@ -25,16 +13,16 @@
       "id": "1753731481074"
     },
     {
-      "name": "alex",
-      "email": "alex@gmail.com",
-      "password": "lolol",
-      "id": "1753732181770"
+      "name": "abc",
+      "email": "def",
+      "password": "ghi",
+      "id": "1753732499189"
     },
     {
-      "name": "joseph",
-      "email": "j@gmail.com",
-      "password": "dffadfadf",
-      "id": "1753732499189"
+      "name": "Bruce Wayne",
+      "email": "iambatman@gmail.com",
+      "password": "gotham",
+      "id": "1753817543432"
     }
   ]
 }

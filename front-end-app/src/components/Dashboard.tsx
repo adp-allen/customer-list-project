@@ -3,9 +3,14 @@ import { useState } from 'react';
 import SearchBar, { type FilterKey } from './SearchBar';
 import { Table } from './Table';
 import { useAuth } from '../AuthContext';
+import ImportData from './ImportData';
+import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+  const [showExport, changeShowExport] = useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const [selectedField, setSelectedField] = useState<FilterKey>('all');
   const [searchValue, setSearchValue] = useState('');
@@ -15,26 +20,30 @@ export default function Dashboard() {
     window.location.assign('/');
   };
 
+  const toggleShowExport = () => {
+    changeShowExport(true);
+  };
+
   return (
     <div className="container-fluid">
-      <button className="auth-btn" onClick={logOut}>
-        Logout
-      </button>
-
-      <div className="table-header-container">
-        <div className="search-bar-wrapper">
-          <SearchBar
-            selectedField={selectedField}
-            searchValue={searchValue}
-            onFieldChange={setSelectedField}
-            onSearchChange={setSearchValue}
-          />
-        </div>
-
-        <h2 className="table-title">Customer List</h2>
+      <div className="dashboard-header">
+        <button className="auth-btn" onClick={logOut}>
+          Logout
+        </button>
+        <button className="export-btn" onClick={toggleShowExport}>
+          Export Data
+        </button>
       </div>
 
-      <Table isLoggedIn={true} selectedField={selectedField} searchValue={searchValue} />
+      <ImportData show={showExport} onCancel={() => changeShowExport(false)} />
+
+      <Table
+        isLoggedIn={true}
+        selectedField={selectedField}
+        searchValue={searchValue}
+        onFieldChange={setSelectedField}
+        onSearchChange={setSearchValue}
+      />
     </div>
   );
 }
