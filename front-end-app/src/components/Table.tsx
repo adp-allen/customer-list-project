@@ -1,5 +1,5 @@
 // Table.tsx
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Table.css';
 import SearchBar, { type FilterKey } from './SearchBar';
@@ -31,10 +31,10 @@ export const Table = ({
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [lastFetched, setLastFetched] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const navigate = useNavigate();
 
   const CACHE_EXPIRY = 5 * 60 * 1000;
-  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -129,6 +129,11 @@ export const Table = ({
       alert('Please select a user to update.');
     }
   };
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newValue = parseInt(e.target.value, 10);
+    setItemsPerPage(newValue);
+    setCurrentPage(1); // Reset to the first page when items per page changes
+  };
 
   return (
     <div className="table-container">
@@ -202,6 +207,19 @@ export const Table = ({
           </table>
 
             <div className="pagination" data-testid="pagination">
+              <div className="items-per-page-container">
+                <label htmlFor="items-per-page">Items per page:</label>
+                <select
+                  id="items-per-page"
+                  value={itemsPerPage}
+                  onChange={handleItemsPerPageChange}
+                  className='items-per-page-select'
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                </select>
+              </div>
             <button
               className="page-button"
               disabled={currentPage === 1}
