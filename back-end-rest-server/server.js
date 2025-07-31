@@ -126,7 +126,7 @@ app.post('/api/customers', express.text({ type: 'text/plain' }), async (req, res
 
         // Add customers to the database
         for (const customer of customers) {
-            await new Promise(resolve => setTimeout(resolve, 10));
+            await new Promise(resolve => setTimeout(resolve, 5));
             await customerDb.add(customer);
         }
 
