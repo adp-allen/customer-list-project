@@ -114,21 +114,39 @@ app.post('/api/customers', express.text({ type: 'text/plain' }), async (req, res
             return res.status(400).json({ error: 'Invalid CSV format. Expected headers: customerName, Username, Password' });
         }
 
-        // Parse rows into customer objects
+
+        // Parse rows into customer objects and assign UUIDs
+        const { v4: uuidv4 } = require('uuid');
         const customers = rows.slice(1).map(row => {
             const values = row.split(',').map(value => value.trim());
             return {
+                id: uuidv4(),
                 name: values[0],
                 email: values[1],
                 password: values[2],
             };
         });
 
-        // Add customers to the database
-        for (const customer of customers) {
-            await new Promise(resolve => setTimeout(resolve, 5));
-            await customerDb.add(customer);
+
+
+        // Batch add customers: read file once, add all, write once
+        const fs = require('fs').promises;
+        const path = require('path');
+        const dbPath = path.join(__dirname, 'data.json');
+        let data;
+        try {
+            data = await fs.readFile(dbPath, 'utf-8');
+        } catch (err) {
+            // If file doesn't exist, start with empty
+            data = JSON.stringify({ customers: [] });
         }
+        const parsed = JSON.parse(data);
+        const items = parsed.customers || [];
+        for (const customer of customers) {
+            items.push(customer);
+        }
+        parsed.customers = items;
+        await fs.writeFile(dbPath, JSON.stringify(parsed, null, 2));
 
         res.status(200).json({ message: 'Customers added successfully!' });
     } catch (err) {

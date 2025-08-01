@@ -1,5 +1,7 @@
+
 const fs = require('fs').promises
 const path = require('path')
+const { v4: uuidv4 } = require('uuid')
 
 class JsonDatabase{
     // initialize object
@@ -38,7 +40,7 @@ class JsonDatabase{
 
             const filtered = items.filter(item => item.id != id)
             parsed.customers = filtered
-            
+
             await fs.writeFile(this.filepath, JSON.stringify(parsed, null, 2))
             return filtered
         } catch (err) {
@@ -53,8 +55,8 @@ class JsonDatabase{
             const parsed = JSON.parse(data)
             const items = parsed.customers || []
 
-            // subject to change, this is current solution for a uid
-            item.id = item.id || Date.now().toString()
+            // Use UUID for unique id
+            item.id = item.id || uuidv4()
             items.push(item)
             parsed.customers = items
 
